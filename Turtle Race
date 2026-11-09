@@ -1,1 +1,130 @@
+  """
+Turtle Race
+-----------
+Pick a turtle, watch six turtles race across the screen, and see if your bet wins.
 
+Run it with:  python turtle_race.py
+
+Tip: never name your own file turtle.py, or Python will import your file
+instead of the real turtle module and nothing will work.
+"""
+
+import random
+import turtle
+
+# ---------------- Game settings ----------------
+# Names in CAPITALS are constants: settings you can tweak without touching the logic.
+WIDTH, HEIGHT = 800, 500
+COLORS = ["red", "orange", "green", "blue", "purple", "pink"]
+START_X = -WIDTH / 2 + 60      # x position of the start line
+FINISH_X = WIDTH / 2 - 60      # x position of the finish line
+LANE_GAP = 60                  # vertical space between turtles
+MAX_STEP = 10                  # biggest move a turtle can make in one turn
+
+
+def setup_screen():
+    """Create the game window."""
+    screen = turtle.Screen()
+    screen.setup(WIDTH, HEIGHT)
+    screen.title("Turtle Race")
+    screen.bgcolor("white")
+    return screen
+
+
+def draw_track():
+    """Draw the start and finish lines with labels."""
+    pen = turtle.Turtle()
+    pen.hideturtle()
+    pen.speed(0)               # 0 means draw instantly
+    pen.pensize(3)
+
+    track_top = HEIGHT / 2 - 60
+    track_bottom = -track_top
+
+    for x, label in [(START_X, "START"), (FINISH_X, "FINISH")]:
+        pen.penup()
+        pen.goto(x, track_top + 10)
+        pen.write(label, align="center", font=("Arial", 12, "bold"))
+        pen.goto(x, track_top)
+        pen.pendown()
+        pen.goto(x, track_bottom)
+
+
+def create_racers():
+    """Make one turtle per colour and line them up at the start."""
+    racers = []
+    top_lane_y = (len(COLORS) - 1) / 2 * LANE_GAP   # centres the lanes vertically
+
+    for i, color in enumerate(COLORS):
+        racer = turtle.Turtle(shape="turtle")
+        racer.color(color)
+        racer.penup()                                # don't draw a line while moving
+        racer.goto(START_X, top_lane_y - i * LANE_GAP)
+        racers.append(racer)
+
+    return racers
+
+
+def get_bet(screen):
+    """Ask the player to pick a colour. Keeps asking until the answer is valid."""
+    prompt = "Which turtle will win the race?\nChoose: " + ", ".join(COLORS)
+
+    while True:
+        bet = screen.textinput("Place your bet", prompt)
+        if bet is None:                  # the player clicked Cancel
+            return None
+        bet = bet.strip().lower()
+        if bet in COLORS:
+            return bet
+        prompt = f"'{bet}' isn't in this race.\nChoose: " + ", ".join(COLORS)
+
+
+def race(racers):
+    """Move every turtle a random distance each turn until one crosses the finish."""
+    while True:
+        for racer in racers:
+            racer.forward(random.randint(1, MAX_STEP))
+            if racer.xcor() >= FINISH_X:
+                return racer             # the first turtle over the line wins
+
+
+def celebrate(winner):
+    """The winning turtle does two victory spins."""
+    winner.speed(6)
+    for _ in range(2):
+        winner.left(360)
+
+
+def announce(winner_color, bet):
+    """Write the result at the bottom of the screen."""
+    pen = turtle.Turtle()
+    pen.hideturtle()
+    pen.penup()
+    pen.goto(0, -HEIGHT / 2 + 20)
+
+    if bet is None:
+        message = f"The {winner_color} turtle wins!"
+    elif winner_color == bet:
+        message = f"The {winner_color} turtle wins. You won your bet!"
+    else:
+        message = f"The {winner_color} turtle wins. You picked {bet}, better luck next time!"
+
+    pen.write(message, align="center", font=("Arial", 16, "bold"))
+
+
+def main():
+    screen = setup_screen()
+    draw_track()
+    racers = create_racers()
+    bet = get_bet(screen)
+
+    winner = race(racers)
+    celebrate(winner)
+    announce(winner.pencolor(), bet)
+
+    screen.exitonclick()                 # keeps the window open until you click it
+
+
+# This line means main() only runs when you run this file directly.
+if __name__ == "__main__":
+    main()
