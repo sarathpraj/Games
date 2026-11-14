@@ -1,0 +1,4 @@
+# Only needed for project 17 (QR Code Generator)
+qrcode[pil]>=7.4
+# Only needed for project 18 (Music Player)
+pygame>=2.5

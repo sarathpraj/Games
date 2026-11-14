@@ -1,0 +1,282 @@
+
+<h2 class="sr-only">PiPal AI desktop robot — complete build guide with circuit diagram, parts list, step-by-step assembly, and code setup</h2>
+<style>
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.pp-nav{display:flex;flex-wrap:wrap;border-bottom:0.5px solid var(--border);gap:0;margin-bottom:20px}
+.pp-btn{padding:9px 18px;font-size:13px;font-weight:500;color:var(--text-secondary);border:none;background:transparent;cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap}
+.pp-btn:hover:not(.on){color:var(--text-primary)}
+.pp-btn.on{color:var(--text-accent);border-bottom-color:var(--border-accent)}
+.pp-sh{font-size:15px;font-weight:500;color:var(--text-primary);margin:0 0 4px;padding-bottom:10px;border-bottom:0.5px solid var(--border)}
+.pp-step{display:flex;gap:12px;margin-bottom:16px;align-items:flex-start}
+.pp-num{min-width:30px;height:30px;border-radius:50%;background:var(--fill-accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.pp-sb h3{margin:0 0 3px;font-size:14px;font-weight:500;color:var(--text-primary)}
+.pp-sb p{margin:0;font-size:13px;color:var(--text-secondary);line-height:1.5}
+.pp-sb code{background:var(--surface-0);padding:1px 6px;border-radius:4px;font-size:12px;font-family:var(--font-mono);color:var(--text-primary)}
+table.pp-t{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+table.pp-t th{background:var(--surface-0);color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:8px 10px;border-bottom:0.5px solid var(--border-strong);font-weight:500;text-align:left}
+table.pp-t td{padding:9px 10px;border-bottom:0.5px solid var(--border);color:var(--text-secondary);vertical-align:top}
+table.pp-t tr:last-child td{color:var(--text-primary);font-weight:500;border-bottom:none}
+.pp-g{color:var(--text-success);font-weight:500}
+pre.pp-pre{background:var(--surface-0);border:0.5px solid var(--border);border-radius:8px;padding:14px;font-size:12px;font-family:var(--font-mono);color:var(--text-primary);line-height:1.6;overflow-x:auto;margin:10px 0 16px}
+.pp-note{background:var(--bg-accent);border:0.5px solid var(--border-accent);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--text-accent);margin:12px 0;line-height:1.5}
+.pp-sec{margin-bottom:8px}
+</style>
+
+<div class="pp-nav" id="pp-nav" style="display:none">
+  <button class="pp-btn" id="b0" onclick="pp(0)">Robot look</button>
+  <button class="pp-btn" id="b1" onclick="pp(1)">Circuit</button>
+  <button class="pp-btn" id="b2" onclick="pp(2)">Parts list</button>
+  <button class="pp-btn" id="b3" onclick="pp(3)">Build guide</button>
+  <button class="pp-btn" id="b4" onclick="pp(4)">Code + setup</button>
+</div>
+
+<!-- Section 0: Robot look -->
+<div class="pp-sec" id="pp0">
+<p class="pp-sh">Robot design — what PiPal looks like</p>
+<p style="font-size:13px;color:var(--text-secondary);margin:0 0 14px">Front view of the finished robot with all components labeled. ~22 cm wide, ~24 cm tall.</p>
+<svg width="100%" viewBox="0 0 680 460" role="img">
+<title>PiPal robot front view with labeled components</title>
+<desc>Front view of the PiPal AI desktop robot showing the OLED face display, wake button, speaker grille, rubber wheels on TT motors, 2WD chassis, and caster wheel</desc>
+<defs><marker id="ar1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+<!-- Chassis base -->
+<g class="c-gray"><rect x="192" y="307" width="295" height="62" rx="10" stroke-width="0.5"/></g>
+<!-- Motor mounts -->
+<rect x="170" y="288" width="24" height="52" rx="4" fill="var(--border-strong)"/>
+<rect x="485" y="288" width="24" height="52" rx="4" fill="var(--border-strong)"/>
+<!-- Left wheel -->
+<g class="c-gray"><ellipse cx="156" cy="322" rx="23" ry="48" stroke-width="0.5"/></g>
+<ellipse cx="156" cy="322" rx="8" ry="29" fill="var(--surface-0)" stroke="var(--border)" stroke-width="0.5"/>
+<circle cx="156" cy="322" r="4" fill="var(--border-stronger)"/>
+<!-- Right wheel -->
+<g class="c-gray"><ellipse cx="523" cy="322" rx="23" ry="48" stroke-width="0.5"/></g>
+<ellipse cx="523" cy="322" rx="8" ry="29" fill="var(--surface-0)" stroke="var(--border)" stroke-width="0.5"/>
+<circle cx="523" cy="322" r="4" fill="var(--border-stronger)"/>
+<!-- Body -->
+<g class="c-purple"><rect x="216" y="107" width="247" height="206" rx="14" stroke-width="0.5"/></g>
+<!-- Front panel inset -->
+<rect x="226" y="117" width="227" height="186" rx="10" fill="var(--surface-0)" stroke="var(--border)" stroke-width="0.5"/>
+<!-- OLED screen -->
+<rect x="251" y="130" width="177" height="100" rx="5" fill="#050a12" stroke="#1d4ed8" stroke-width="1"/>
+<rect x="255" y="134" width="169" height="92" rx="3" fill="#020407"/>
+<!-- Left eye -->
+<ellipse cx="295" cy="179" rx="22" ry="20" fill="#0d9488"/>
+<ellipse cx="295" cy="179" rx="12" ry="12" fill="#020407"/>
+<circle cx="289" cy="173" r="5" fill="#2dd4bf"/>
+<!-- Right eye -->
+<ellipse cx="385" cy="179" rx="22" ry="20" fill="#0d9488"/>
+<ellipse cx="385" cy="179" rx="12" ry="12" fill="#020407"/>
+<circle cx="379" cy="173" r="5" fill="#2dd4bf"/>
+<!-- Smile -->
+<path d="M272 210 Q340 228 408 210" stroke="#2dd4bf" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+<!-- Speaker dots 5×3 -->
+<circle cx="291" cy="258" r="3.5" fill="var(--border-stronger)"/><circle cx="313" cy="258" r="3.5" fill="var(--border-stronger)"/><circle cx="340" cy="258" r="3.5" fill="var(--border-stronger)"/><circle cx="367" cy="258" r="3.5" fill="var(--border-stronger)"/><circle cx="389" cy="258" r="3.5" fill="var(--border-stronger)"/>
+<circle cx="291" cy="272" r="3.5" fill="var(--border-stronger)"/><circle cx="313" cy="272" r="3.5" fill="var(--border-stronger)"/><circle cx="340" cy="272" r="3.5" fill="var(--border-stronger)"/><circle cx="367" cy="272" r="3.5" fill="var(--border-stronger)"/><circle cx="389" cy="272" r="3.5" fill="var(--border-stronger)"/>
+<circle cx="291" cy="286" r="3.5" fill="var(--border-stronger)"/><circle cx="313" cy="286" r="3.5" fill="var(--border-stronger)"/><circle cx="340" cy="286" r="3.5" fill="var(--border-stronger)"/><circle cx="367" cy="286" r="3.5" fill="var(--border-stronger)"/><circle cx="389" cy="286" r="3.5" fill="var(--border-stronger)"/>
+<circle cx="340" cy="272" r="32" fill="none" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4,3"/>
+<!-- Button stem -->
+<rect x="333" y="101" width="14" height="10" rx="2" fill="var(--border-strong)"/>
+<!-- Button dome -->
+<circle cx="340" cy="92" r="18" fill="#b91c1c" stroke="#f87171" stroke-width="1"/>
+<circle cx="340" cy="92" r="11" fill="#dc2626"/>
+<circle cx="333" cy="85" r="4" fill="#fca5a5" opacity="0.45"/>
+<!-- Antenna -->
+<line x1="390" y1="111" x2="416" y2="69" stroke="var(--border-strong)" stroke-width="1.5"/>
+<circle cx="416" cy="65" r="7" fill="var(--bg-accent)" stroke="var(--border-accent)" stroke-width="1"/>
+<circle cx="416" cy="65" r="3.5" fill="var(--fill-accent)"/>
+<!-- Caster -->
+<rect x="334" y="368" width="12" height="14" rx="2" fill="var(--border-strong)"/>
+<circle cx="340" cy="392" r="14" fill="var(--surface-1)" stroke="var(--border-strong)" stroke-width="1"/>
+<circle cx="340" cy="392" r="5" fill="var(--border-stronger)"/>
+
+<!-- LABELS right side -->
+<line x1="358" y1="86" x2="450" y2="52" class="leader" marker-end="url(#ar1)"/>
+<text class="ts" x="454" y="49" fill="var(--text-secondary)">Wake button (GPIO 17)</text>
+<line x1="428" y1="180" x2="452" y2="163" class="leader" marker-end="url(#ar1)"/>
+<text class="ts" x="456" y="160" fill="var(--text-secondary)">0.96″ OLED face display</text>
+<text class="ts" x="456" y="173" fill="var(--text-muted)">(I2C · SSD1306 · 128×64)</text>
+<line x1="374" y1="272" x2="452" y2="249" class="leader" marker-end="url(#ar1)"/>
+<text class="ts" x="456" y="246" fill="var(--text-secondary)">3W speaker</text>
+<text class="ts" x="456" y="259" fill="var(--text-muted)">(via PAM8403 amp)</text>
+<text class="ts" x="456" y="298" fill="var(--text-muted)">RPi Zero 2W + L298N</text>
+<text class="ts" x="456" y="311" fill="var(--text-muted)">+ battery pack inside</text>
+<line x1="485" y1="348" x2="456" y2="375" class="leader" marker-end="url(#ar1)"/>
+<text class="ts" x="456" y="390" fill="var(--text-muted)">2WD robot chassis</text>
+<text class="ts" x="356" y="418" fill="var(--text-muted)">caster wheel</text>
+<!-- LABEL left side (wheels) -->
+<line x1="133" y1="310" x2="78" y2="295" class="leader" marker-end="url(#ar1)"/>
+<text class="ts" x="74" y="282" text-anchor="end" fill="var(--text-secondary)">TT motors</text>
+<text class="ts" x="74" y="295" text-anchor="end" fill="var(--text-muted)">+ rubber wheels ×2</text>
+<!-- Size indicator -->
+<line x1="216" y1="445" x2="463" y2="445" stroke="var(--border)" stroke-width="0.5"/>
+<polygon points="216,442 216,448 209,445" fill="var(--border-strong)"/>
+<polygon points="463,442 463,448 470,445" fill="var(--border-strong)"/>
+<text class="ts" x="340" y="458" text-anchor="middle" fill="var(--text-muted)">approximately 22 cm wide × 24 cm tall</text>
+</svg>
+</div>
+
+<!-- Section 1: Circuit -->
+<div class="pp-sec" id="pp1">
+<p class="pp-sh">Circuit diagram — block-level connections</p>
+<p style="font-size:13px;color:var(--text-secondary);margin:0 0 14px">Color-coded by function. "USB audio system" = sound card + USB mic + PAM8403 amp + speaker.</p>
+<svg width="100%" viewBox="0 0 680 462" role="img">
+<title>PiPal circuit block diagram showing color-coded connections between all components</title>
+<desc>Block diagram: battery and buck converter power the RPi Zero 2W, which controls an L298N motor driver for two motors, an OLED display via I2C, a USB audio system, and a push button trigger</desc>
+<defs><marker id="ac1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+
+<!-- CONNECTION LINES (behind boxes) -->
+<!-- 1. Battery → Buck (red power) -->
+<line x1="340" y1="64" x2="340" y2="100" stroke="#E24B4A" stroke-width="1.5" marker-end="url(#ac1)" fill="none"/>
+<!-- 2. Buck → RPi (red power) -->
+<line x1="340" y1="156" x2="340" y2="195" stroke="#E24B4A" stroke-width="1.5" marker-end="url(#ac1)" fill="none"/>
+<!-- 3. Buck → L298N VCC (red, L-shape) -->
+<path d="M260 128 L195 128 L195 228 L180 228" stroke="#E24B4A" stroke-width="1.5" marker-end="url(#ac1)" fill="none"/>
+<!-- 4. RPi GPIO → L298N control (amber) -->
+<line x1="220" y1="248" x2="180" y2="248" stroke="#EF9F27" stroke-width="1.5" marker-end="url(#ac1)" fill="none"/>
+<!-- 5. L298N → Motor L (coral) -->
+<path d="M75 266 L75 296 L65 296 L65 335" stroke="#D85A30" stroke-width="1.5" marker-end="url(#ac1)" fill="none"/>
+<!-- 6. L298N → Motor R (coral) -->
+<path d="M145 266 L145 296 L170 296 L170 335" stroke="#D85A30" stroke-width="1.5" marker-end="url(#ac1)" fill="none"/>
+<!-- 7. RPi I2C → OLED (blue) -->
+<path d="M460 215 L472 215 L472 187 L490 187" stroke="#378ADD" stroke-width="1.5" marker-end="url(#ac1)" fill="none"/>
+<!-- 8. RPi USB → Audio system (teal) -->
+<path d="M460 252 L472 252 L472 263 L490 263" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#ac1)" fill="none"/>
+<!-- 9. RPi GPIO → Button (amber) -->
+<line x1="340" y1="285" x2="340" y2="365" stroke="#EF9F27" stroke-width="1.5" marker-end="url(#ac1)" fill="none"/>
+
+<!-- COMPONENT BOXES -->
+<!-- Battery (amber) -->
+<g class="c-amber"><rect x="260" y="20" width="160" height="44" rx="8" stroke-width="0.5"/><text class="th" x="340" y="42" text-anchor="middle" dominant-baseline="central">2× 18650 battery pack</text></g>
+<!-- Buck converter (amber) -->
+<g class="c-amber"><rect x="260" y="100" width="160" height="56" rx="8" stroke-width="0.5"/>
+<text class="th" x="340" y="120" text-anchor="middle" dominant-baseline="central">Buck converter</text>
+<text class="ts" x="340" y="138" text-anchor="middle" dominant-baseline="central">7.4V → 5V (LM2596)</text></g>
+<!-- RPi Zero 2W (purple, large) -->
+<g class="c-purple"><rect x="220" y="195" width="240" height="90" rx="10" stroke-width="0.5"/>
+<text class="th" x="340" y="225" text-anchor="middle" dominant-baseline="central">Raspberry Pi Zero 2W</text>
+<text class="ts" x="340" y="248" text-anchor="middle" dominant-baseline="central">AI brain · WiFi · GPIO</text></g>
+<!-- L298N (coral) -->
+<g class="c-coral"><rect x="30" y="210" width="150" height="56" rx="8" stroke-width="0.5"/>
+<text class="th" x="105" y="230" text-anchor="middle" dominant-baseline="central">L298N driver</text>
+<text class="ts" x="105" y="248" text-anchor="middle" dominant-baseline="central">Controls 2 motors</text></g>
+<!-- Motor L (coral) -->
+<g class="c-coral"><rect x="20" y="335" width="90" height="44" rx="8" stroke-width="0.5"/><text class="th" x="65" y="357" text-anchor="middle" dominant-baseline="central">Motor L</text></g>
+<!-- Motor R (coral) -->
+<g class="c-coral"><rect x="125" y="335" width="90" height="44" rx="8" stroke-width="0.5"/><text class="th" x="170" y="357" text-anchor="middle" dominant-baseline="central">Motor R</text></g>
+<!-- OLED (teal) -->
+<g class="c-teal"><rect x="490" y="165" width="140" height="44" rx="8" stroke-width="0.5"/><text class="th" x="560" y="187" text-anchor="middle" dominant-baseline="central">OLED display</text></g>
+<!-- USB audio (blue) -->
+<g class="c-blue"><rect x="490" y="235" width="140" height="56" rx="8" stroke-width="0.5"/>
+<text class="th" x="560" y="255" text-anchor="middle" dominant-baseline="central">USB audio system</text>
+<text class="ts" x="560" y="273" text-anchor="middle" dominant-baseline="central">mic · amp · speaker</text></g>
+<!-- Push button (gray) -->
+<g class="c-gray"><rect x="265" y="365" width="150" height="44" rx="8" stroke-width="0.5"/><text class="th" x="340" y="387" text-anchor="middle" dominant-baseline="central">Push button</text></g>
+
+<!-- LEGEND -->
+<line x1="40" y1="427" x2="630" y2="427" stroke="var(--border)" stroke-width="0.5"/>
+<circle cx="48" cy="440" r="5" fill="#E24B4A"/>
+<text class="ts" x="58" y="444" fill="var(--text-secondary)">5V power</text>
+<circle cx="160" cy="440" r="5" fill="#EF9F27"/>
+<text class="ts" x="170" y="444" fill="var(--text-secondary)">GPIO signal</text>
+<circle cx="278" cy="440" r="5" fill="#378ADD"/>
+<text class="ts" x="288" y="444" fill="var(--text-secondary)">I2C data</text>
+<circle cx="378" cy="440" r="5" fill="#1D9E75"/>
+<text class="ts" x="388" y="444" fill="var(--text-secondary)">USB + audio</text>
+<circle cx="495" cy="440" r="5" fill="#D85A30"/>
+<text class="ts" x="505" y="444" fill="var(--text-secondary)">Motor power</text>
+</svg>
+</div>
+
+<!-- Section 2: Parts list -->
+<div class="pp-sec" id="pp2">
+<p class="pp-sh">Parts list — where to buy</p>
+<p style="font-size:13px;color:var(--text-secondary);margin:0 0 14px">Best Indian sources: <strong>robocraze.com</strong>, <strong>evelta.com</strong>, <strong>amazon.in</strong>. For international: <strong>aliexpress.com</strong> (slowest but cheapest).</p>
+<table class="pp-t">
+<thead><tr><th>#</th><th>Component</th><th>Qty</th><th>Price (₹)</th><th>Source</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Raspberry Pi Zero 2W</td><td>1</td><td class="pp-g">₹1,300</td><td>evelta.com / robocraze.com</td></tr>
+<tr><td>2</td><td>MicroSD card 16GB Class 10</td><td>1</td><td class="pp-g">₹250</td><td>Amazon India</td></tr>
+<tr><td>3</td><td>0.96" I2C OLED display (SSD1306)</td><td>1</td><td class="pp-g">₹220</td><td>Robocraze / Evelta</td></tr>
+<tr><td>4</td><td>L298N dual motor driver module</td><td>1</td><td class="pp-g">₹100</td><td>Robocraze</td></tr>
+<tr><td>5</td><td>2WD robot chassis kit (2× TT motors, wheels, plate)</td><td>1</td><td class="pp-g">₹380</td><td>Robocraze</td></tr>
+<tr><td>6</td><td>18650 Li-ion batteries (3000 mAh)</td><td>2</td><td class="pp-g">₹450</td><td>Amazon India</td></tr>
+<tr><td>7</td><td>2× 18650 battery holder with on/off switch</td><td>1</td><td class="pp-g">₹90</td><td>Robocraze</td></tr>
+<tr><td>8</td><td>LM2596 step-down buck converter module</td><td>1</td><td class="pp-g">₹90</td><td>Robocraze / Amazon</td></tr>
+<tr><td>9</td><td>USB mini sound card (CM108 chip)</td><td>1</td><td class="pp-g">₹200</td><td>Amazon India</td></tr>
+<tr><td>10</td><td>USB clip-on mini microphone</td><td>1</td><td class="pp-g">₹280</td><td>Amazon India</td></tr>
+<tr><td>11</td><td>PAM8403 3W stereo amplifier module</td><td>1</td><td class="pp-g">₹70</td><td>Robocraze</td></tr>
+<tr><td>12</td><td>40mm 4Ω 3W speaker</td><td>1</td><td class="pp-g">₹90</td><td>Robocraze</td></tr>
+<tr><td>13</td><td>Tactile push buttons (5-pack)</td><td>1</td><td class="pp-g">₹30</td><td>Robocraze</td></tr>
+<tr><td>14</td><td>Micro USB OTG hub (4-port)</td><td>1</td><td class="pp-g">₹280</td><td>Amazon India</td></tr>
+<tr><td>15</td><td>40-pin male header strip (for RPi Zero)</td><td>1</td><td class="pp-g">₹50</td><td>Robocraze</td></tr>
+<tr><td>16</td><td>Jumper wires male-to-female (40-pack)</td><td>1</td><td class="pp-g">₹80</td><td>Robocraze</td></tr>
+<tr><td>17</td><td>Claude API key — Haiku model</td><td>—</td><td class="pp-g">Free tier</td><td>console.anthropic.com</td></tr>
+<tr><td colspan="3"><strong>Total estimate</strong></td><td class="pp-g"><strong>~₹3,960</strong></td><td style="color:var(--text-muted)">~$48 USD</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- Section 3: Build guide -->
+<div class="pp-sec" id="pp3">
+<p class="pp-sh">Build guide — 10 steps</p>
+<div class="pp-step"><div class="pp-num">1</div><div class="pp-sb"><h3>Assemble the 2WD chassis</h3><p>Screw the two TT gear motors into the motor mount brackets on the chassis plate. Push rubber wheels onto the motor axles. Attach the caster wheel to the front-bottom hole. All screws and standoffs come with the kit — takes about 15 minutes.</p></div></div>
+<div class="pp-step"><div class="pp-num">2</div><div class="pp-sb"><h3>Solder header pins onto RPi Zero 2W</h3><p>The Pi Zero 2W ships without headers. Solder the 40-pin male header strip onto the GPIO holes — this is the trickiest step. Use a 30W iron, flux, and fine solder. Watch a "soldering RPi Zero headers" tutorial on YouTube before starting if you're new to it. Take your time on each pin.</p></div></div>
+<div class="pp-step"><div class="pp-num">3</div><div class="pp-sb"><h3>Mount RPi Zero 2W and L298N on chassis</h3><p>Use M2.5 plastic standoffs (or double-sided foam tape as a beginner alternative) to mount the RPi and the L298N board on the chassis plate. Keep them side by side to keep wires short. The L298N goes near the motors; RPi can sit on top.</p></div></div>
+<div class="pp-step"><div class="pp-num">4</div><div class="pp-sb"><h3>Connect motors to L298N</h3><p>Left motor wires → L298N <code>OUT1</code> and <code>OUT2</code>. Right motor wires → <code>OUT3</code> and <code>OUT4</code>. Which wire goes to which terminal determines forward/reverse direction — you can swap them later in software if the robot goes the wrong way.</p></div></div>
+<div class="pp-step"><div class="pp-num">5</div><div class="pp-sb"><h3>Wire L298N to RPi GPIO</h3><p>Using male-to-female jumper wires: <code>IN1 → GPIO18</code>, <code>IN2 → GPIO23</code>, <code>IN3 → GPIO24</code>, <code>IN4 → GPIO25</code>. Connect L298N <code>GND</code> to RPi <code>GND</code> (Pin 6). Connect L298N <code>+5V</code> logic pin to RPi <code>5V</code> (Pin 2).</p></div></div>
+<div class="pp-step"><div class="pp-num">6</div><div class="pp-sb"><h3>Connect the OLED display (I2C)</h3><p>Wire OLED <code>VCC → RPi 3.3V</code> (Pin 1), <code>GND → GND</code>, <code>SDA → GPIO2</code> (Pin 3), <code>SCL → GPIO3</code> (Pin 5). After software setup, verify with <code>i2cdetect -y 1</code> — you should see address <code>0x3C</code> in the grid.</p></div></div>
+<div class="pp-step"><div class="pp-num">7</div><div class="pp-sb"><h3>Set up the USB audio chain</h3><p>Plug the micro USB OTG hub into the RPi's data USB port. Plug in the USB sound card and USB microphone into the hub. Audio chain: sound card <code>LINE OUT</code> → PAM8403 <code>IN+/IN−</code> → speaker terminals. Power the PAM8403 from RPi <code>5V</code> and <code>GND</code>. Use the PAM8403 trimmer pot to adjust volume.</p></div></div>
+<div class="pp-step"><div class="pp-num">8</div><div class="pp-sb"><h3>Wire the wake button</h3><p>Connect one leg of the push button to <code>GPIO17</code> (Pin 11) and the other to any <code>GND</code> pin. No resistor needed — the code enables RPi's internal pull-up resistor. Pressing the button is how you wake PiPal and start a conversation.</p></div></div>
+<div class="pp-step"><div class="pp-num">9</div><div class="pp-sb"><h3>Set up battery power</h3><p>Wire battery holder <code>+</code> to LM2596 <code>Vin+</code> and also directly to L298N motor power terminal. Wire <code>−</code> to LM2596 <code>Vin−</code> and L298N <code>GND</code>. Adjust the LM2596 trimmer until a multimeter reads exactly <code>5.0V</code> on the output, then connect to RPi <code>5V</code> pin. <strong>Never power RPi from USB and battery at the same time.</strong></p></div></div>
+<div class="pp-step"><div class="pp-num">10</div><div class="pp-sb"><h3>Flash, install software, and run</h3><p>Flash Raspberry Pi OS Lite to the microSD, SSH in, run the install commands (see Code + Setup tab), add your Claude API key, upload <code>pipal_main.py</code>, and run it. Press the button, say hello, and PiPal will talk back and move!</p></div></div>
+</div>
+
+<!-- Section 4: Code + setup -->
+<div class="pp-sec" id="pp4">
+<p class="pp-sh">Code + software setup</p>
+<p style="font-size:13px;color:var(--text-secondary);margin:0 0 6px"><strong>Step 1 — Flash Raspberry Pi OS Lite:</strong></p>
+<p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">Use Raspberry Pi Imager (free, raspberrypi.com). Choose <em>Raspberry Pi OS Lite 64-bit</em>. In Advanced Settings, pre-configure your WiFi SSID/password and enable SSH before flashing.</p>
+<p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px"><strong>Step 2 — First boot (SSH in as pi@raspberrypi.local):</strong></p>
+<pre class="pp-pre">sudo raspi-config
+# Go to: Interface Options → I2C → Enable → Yes
+# Then: Finish → Reboot
+
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y python3-pip espeak python3-pyaudio i2c-tools portaudio19-dev</pre>
+<p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px"><strong>Step 3 — Install Python libraries:</strong></p>
+<pre class="pp-pre">pip3 install anthropic SpeechRecognition luma.oled Pillow --break-system-packages
+
+# Verify OLED is wired correctly:
+i2cdetect -y 1    # Should show 0x3C in the output grid
+
+# Find your USB microphone device index:
+python3 -c "import speech_recognition as sr; print(sr.Microphone.list_microphone_names())"</pre>
+<p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px"><strong>Step 4 — Set your Claude API key:</strong></p>
+<pre class="pp-pre">echo 'export ANTHROPIC_API_KEY="sk-ant-your-key-here"' >> ~/.bashrc
+source ~/.bashrc
+# Get your free API key at: console.anthropic.com</pre>
+<p style="font-size:13px;color:var(--text-secondary);margin:0 0 4px"><strong>Step 5 — Upload and run PiPal:</strong></p>
+<pre class="pp-pre"># Copy pipal_main.py from your computer to the RPi:
+scp pipal_main.py pi@raspberrypi.local:~/
+
+# Run it!
+python3 ~/pipal_main.py
+
+# Optional: auto-start on every boot
+(crontab -l; echo "@reboot sleep 20 && python3 /home/pi/pipal_main.py") | crontab -</pre>
+<div class="pp-note"><strong>Running cost:</strong> Claude Haiku costs ~$0.00025 per 1K input tokens. At 50 conversations/day of ~200 tokens each, that works out to roughly <strong>₹1–2 per day</strong> — effectively free. The full <code>pipal_main.py</code> code is in the downloaded file below — it handles OLED faces, motor movement, voice recognition, AI responses, and movement parsing all in one script.</div>
+</div>
+
+<script>
+function pp(n){
+  for(var i=0;i<5;i++){
+    var s=document.getElementById('pp'+i);
+    var b=document.getElementById('b'+i);
+    if(s)s.style.display=i===n?'block':'none';
+    if(b)b.classList.toggle('on',i===n);
+  }
+}
+var nav=document.getElementById('pp-nav');
+if(nav){nav.style.display='flex';}
+pp(0);
+</script>
